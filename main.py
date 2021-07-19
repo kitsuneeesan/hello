@@ -23,10 +23,9 @@ class hello():
 
     def _is_tomorrow_off(self, holidays, date=current_datetime):
         tomorrow = date + timedelta(days=1)
-        
         for holiday in holidays:
             date_obj = datetime.strptime(holiday['holiday_date'], '%Y-%m-%d')
-            if date.strftime("%A") in ('Friday', 'Saturday') or tomorrow == date_obj.day:
+            if date.strftime("%A") in ('Friday', 'Saturday') or tomorrow.day == date_obj.day:
                 return True
             elif date.strftime("%A") == 'Sunday':
                 return False
