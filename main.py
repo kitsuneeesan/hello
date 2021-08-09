@@ -25,8 +25,10 @@ class hello():
         tomorrow = date + timedelta(days=1)
         for holiday in holidays:
             date_obj = datetime.strptime(holiday['holiday_date'], '%Y-%m-%d')
-            if date.strftime("%A") in ('Friday', 'Saturday') or tomorrow.day == date_obj.day:
+            if date.strftime("%A") in ('Friday', 'Saturday'):
                 return True
+            elif tomorrow.day == date_obj.day:
+                return holiday['holiday_name']
             elif date.strftime("%A") == 'Sunday':
                 return False
 
@@ -47,7 +49,15 @@ class hello():
         holidays = json.loads(f.read())
         if self._is_day_after_tomorrow_off(holidays):
             print(f'Lusa Libur!! {year_percent}')
-        print(f'Besok Libur! {year_percent}' if self._is_tomorrow_off(holidays) else f'あの子のために {year_percent}')
+
+        is_off = self._is_tomorrow_off(holidays)
+        if type(is_off) == str:
+            print('Besok Libur! |', is_off, year_percent)
+        elif type(is_off) ==  bool:
+            print(f'Besok Libur! Happy Weekend! | {year_percent}')
+        else:
+            print(f'あの子のために {year_percent}')
+
         self._get_weather()
 
 hello()
