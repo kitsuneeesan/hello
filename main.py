@@ -25,6 +25,8 @@ class hello():
     def _is_tomorrow_off(self, holidays, date=current_datetime):
         tomorrow = date + timedelta(days=1)
         for holiday in holidays:
+            if not holiday['is_national_holiday']:
+                return False
             date_obj = datetime.strptime(holiday['holiday_date'], '%Y-%m-%d')
             if date.strftime("%A") in ('Friday', 'Saturday'):
                 return True
@@ -56,8 +58,8 @@ class hello():
 
         is_off = self._is_tomorrow_off(holidays)
         if type(is_off) == str:
-            print('Besok Libur! |', is_off, year_percent)
-        elif type(is_off) ==  bool:
+            print('Besok Libur! |', is_off, bar)
+        elif type(is_off) ==  bool and is_off:
             print(f'{bar} | Besok Libur! Happy Weekend!')
         else:
             print(f'{bar} | あの子のために')
